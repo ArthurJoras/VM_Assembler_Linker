@@ -1,0 +1,5 @@
+GLOBAL WORD x 10
+WORD y 20
+LOAD r1 x
+ADD r1 y
+test:

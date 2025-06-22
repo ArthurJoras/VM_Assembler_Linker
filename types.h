@@ -1,6 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ typedef struct {
     int memoryAddress;
     SymbolType type;
     ScopeType scope;
-} Symbol;
+} SymbolTableRow;
 
 typedef struct {
     int opcode;
@@ -38,8 +39,13 @@ typedef struct {
     union {
         int value;
         Instruction instruction;
-    }
+    };
 } MemoryCell;
+
+typedef struct {
+    vector<MemoryCell> memory;
+    vector<SymbolTableRow> symbolTable;
+} AssembledProgram;
 
 enum Intructions {
   NOP = -1,

@@ -1,6 +1,11 @@
 
 #include "linker.h"
+#include "types.h"
+#include "assembler.h"
 #include <iostream>
+#include <vector>
+#include <string>
+
 using namespace std;
 
 int getProgramsQuantity(int argc) {
@@ -14,5 +19,15 @@ int getProgramsQuantity(int argc) {
 
 int main(int argc, char *argv[]) {
     const int totalPrograms = getProgramsQuantity(argc);
-    initLinker(argv, totalPrograms);
+
+    vector<AssembledProgram> programs(totalPrograms);
+
+    for (int i = 0; i < totalPrograms; i++) {
+        programs[i].memory.clear();
+        programs[i].symbolTable.clear();
+
+        assembleProgram(programs, argv[i + 1], i);
+    }
+
+    // initLinker(argv, totalPrograms);
 }

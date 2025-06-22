@@ -1,0 +1,4 @@
+WORD a 10
+WORD b 20
+LOAD r1 a
+ADD r1 b
