@@ -10,59 +10,60 @@ using namespace std;
 #define REGISTERS_COUNT 4
 
 enum SymbolType {
-    VARIABLE,
-    LABEL
+	VARIABLE,
+	LABEL
 };
 
 enum ScopeType {
-    GLOBAL,
-    LOCAL
+	GLOBAL,
+	LOCAL
 };
 
 typedef struct {
-    string name;
-    int memoryAddress;
-    SymbolType type;
-    ScopeType scope;
+	string name;
+	int memoryAddress;
+	SymbolType type;
+	ScopeType scope;
 } SymbolTableRow;
 
 typedef struct {
-    int opcode;
-    int operand1;
-    int operand2;
-    int operand3;
+	int opcode;
+	int operand1;
+	int operand2;
+	int operand3;
 } Instruction;
 
 typedef struct {
-    ScopeType scope;
+	ScopeType scope;
+	string symbolName;
+	int targetOperand;
 
-    union {
-        int value;
-        Instruction instruction;
-    };
+	union {
+		int value;
+		Instruction instruction;
+	};
 } MemoryCell;
 
 typedef struct {
-    vector<MemoryCell> memory;
-    vector<SymbolTableRow> symbolTable;
+	vector<MemoryCell> memory;
+	vector<SymbolTableRow> symbolTable;
 } AssembledProgram;
 
 enum Intructions {
-  NOP = -1,
-  ADD = 0,
-  SUB,
-  MUL,
-  DIV,
-  MV,
-  ST,
-  JMP,
-  JEQ,
-  JGT,
-  JLT,
-  W,
-  R,
-  STP
+	NOP = -1,
+	ADD = 0,
+	SUB,
+	MUL,
+	DIV,
+	MV,
+	ST,
+	JMP,
+	JEQ,
+	JGT,
+	JLT,
+	W,
+	R,
+	STP
 };
-
 
 #endif

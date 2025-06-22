@@ -3,7 +3,7 @@ CXXFLAGS = -Wall -std=c++17
 SOURCES = $(wildcard *.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
 EXEC = main
-PARAMS = test_programs/prog1.asm test_programs/prog2.asm
+PARAMS = test_programs/prog3.asm
 
 all: $(EXEC)
 

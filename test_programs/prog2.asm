@@ -1,4 +1,4 @@
 WORD a 10
 WORD b 20
-LOAD r1 a
-ADD r1 b
+MV A1 a
+ADD A1 A2 A3

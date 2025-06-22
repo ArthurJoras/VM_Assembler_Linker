@@ -1,5 +1,5 @@
 GLOBAL WORD x 10
 WORD y 20
-LOAD r1 x
-ADD r1 y
+MV A0 x
+ADD A0 A1 A2
 test:
