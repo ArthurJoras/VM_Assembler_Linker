@@ -30,5 +30,7 @@ int main(int argc, char *argv[]) {
 		assembleProgram(programs, argv[i + 1], i);
 	}
 
-	// initLinker(argv, totalPrograms);
+	LinkedProgram linkedProgram;
+
+	initLinker(programs, linkedProgram, argv, totalPrograms);
 }

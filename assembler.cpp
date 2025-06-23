@@ -36,6 +36,7 @@ void handleLabelDeclaration(vector<AssembledProgram> &programs, const string &la
 	newSymbol.type = LABEL;
 	newSymbol.scope = LOCAL;
 	newSymbol.memoryAddress = lineCount;
+	newSymbol.programIndex = programIndex;
 	actualProgram.symbolTable.push_back(newSymbol);
 }
 
@@ -57,6 +58,7 @@ void handleWordDeclaration(vector<AssembledProgram> &programs, ScopeType scope, 
 	newSymbol.type = VARIABLE;
 	newSymbol.scope = scope;
 	newSymbol.memoryAddress = actualProgram.memory.size();
+	newSymbol.programIndex = programIndex;
 	actualProgram.symbolTable.push_back(newSymbol);
 
 	MemoryCell newCell;
@@ -115,12 +117,12 @@ void assemblerFirstPass(vector<AssembledProgram> &programs, ifstream &file, int 
 	string line;
 	int lineCount = 0;
 	while (getline(file, line) && lineCount < MEMORY_SIZE) {
-		lineCount++;
-
-		if (!line.empty() && line[0] != '#') {
+		string trimmedLine = trim(line);
+		if (!trimmedLine.empty() && trimmedLine[0] != '#') {
+			lineCount++;
 			vector<string> tokens;
 			string word;
-			istringstream iss(trim(line));
+			istringstream iss(trimmedLine);
 			while (iss >> word) {
 				tokens.push_back(word);
 			}
@@ -299,14 +301,18 @@ void assemblerSecondPass(vector<AssembledProgram> &programs, ifstream &file, int
 	string line;
 	int lineCount = 0;
 	while (getline(file, line) && lineCount < MEMORY_SIZE) {
-		if (!line.empty() && line[0] != '#') {
+		string trimmedLine = trim(line);
+		if (!trimmedLine.empty() && trimmedLine[0] != '#') {
+			if (trimmedLine.back() == ':') {
+				continue;
+			}
 			lineCount++;
 			if (lineCount <= initOfProgram) {
 				continue;
 			}
 			vector<string> tokens;
 			string word;
-			istringstream iss(trim(line));
+			istringstream iss(trimmedLine);
 			while (iss >> word) {
 				tokens.push_back(word);
 			}
@@ -346,10 +352,11 @@ void assembleProgram(vector<AssembledProgram> &programs, const char *filename, i
 	cout << "Assembling program: " << filename << endl;
 
 	assemblerFirstPass(programs, file, programIndex, initOfProgram);
-	printSymbolTable(programs);
+	// printSymbolTable(programs);
 	restartFilePointer(file);
 	assemblerSecondPass(programs, file, programIndex, initOfProgram);
-	printMemory(programs[programIndex], initOfProgram);
+	programs[programIndex].initOfProgram = initOfProgram;
+	// printMemory(programs[programIndex]);
 
 	file.close();
 }

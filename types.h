@@ -24,6 +24,7 @@ typedef struct {
 	int memoryAddress;
 	SymbolType type;
 	ScopeType scope;
+	int programIndex;
 } SymbolTableRow;
 
 typedef struct {
@@ -34,10 +35,10 @@ typedef struct {
 } Instruction;
 
 typedef struct {
+	int programIndex;
 	ScopeType scope;
 	string symbolName;
 	int targetOperand;
-
 	union {
 		int value;
 		Instruction instruction;
@@ -47,7 +48,15 @@ typedef struct {
 typedef struct {
 	vector<MemoryCell> memory;
 	vector<SymbolTableRow> symbolTable;
+	int initOfProgram;
 } AssembledProgram;
+
+typedef struct {
+	vector<MemoryCell> memory;
+	vector<SymbolTableRow> symbolTable;
+	vector<MemoryCell> auxDataMemory;
+	vector<MemoryCell> auxInstructionMemory;
+} LinkedProgram;
 
 enum Intructions {
 	NOP = -1,
