@@ -109,6 +109,9 @@ void linkerSecondPass(LinkedProgram &linkedProgram) {
 
 		linkedProgram.memory.push_back(newCell);
 	}
+
+	linkedProgram.auxDataMemory.clear();
+	linkedProgram.auxInstructionMemory.clear();
 }
 
 void initLinker(vector<AssembledProgram> &programs, LinkedProgram &linkedProgram, char *argv[], int totalPrograms) {
