@@ -1,0 +1,4 @@
+GLOBAL WORD add_res 0
+GLOBAL WORD sub_res 0
+GLOBAL WORD mul_res 0
+GLOBAL WORD div_res 0

@@ -129,6 +129,21 @@ void printFinalLinkedMemory(const LinkedProgram &linkedProgram) {
 	}
 }
 
+void printInstruction(const Instruction &instruction) {
+	cout << "Opcode: " << instruction.opcode
+	     << ", Operand1: " << instruction.operand1
+	     << ", Operand2: " << instruction.operand2
+	     << ", Operand3: " << instruction.operand3
+	     << endl;
+}
+
+void printRegisters(const int registers[], int size) {
+	cout << "Registers:" << endl;
+	for (int i = 0; i < size; ++i) {
+		cout << "A" << i << ": " << registers[i] << endl;
+	}
+}
+
 int convertMnemonicToOpcode(const string &mnemonic) {
 	if (mnemonic == "ADD") return ADD;
 	if (mnemonic == "SUB") return SUB;

@@ -75,6 +75,7 @@ void linkerSecondPass(LinkedProgram &linkedProgram) {
 				if (!found) {
 					if (symbol.name == newCell.symbolName) {
 						if (symbol.scope == GLOBAL || (symbol.scope == LOCAL && symbol.programIndex == newCell.programIndex)) {
+							// if ((symbol.scope == GLOBAL && symbol.programIndex >= newCell.programIndex) || (symbol.scope == LOCAL && symbol.programIndex == newCell.programIndex)) {
 							if (newCell.targetOperand == 1) {
 								newCell.instruction.operand1 = symbol.memoryAddress;
 							} else if (newCell.targetOperand == 2) {
@@ -119,7 +120,7 @@ void initLinker(vector<AssembledProgram> &programs, LinkedProgram &linkedProgram
 		totalDataOffset += program.initOfProgram;
 	}
 
-	cout << "Instruction offset initialized to: " << instructionOffset << endl;
+	// cout << "Instruction offset initialized to: " << instructionOffset << endl;
 
 	for (i = 0; i < totalPrograms; i++) {
 		int programIndex = i;
@@ -130,10 +131,8 @@ void initLinker(vector<AssembledProgram> &programs, LinkedProgram &linkedProgram
 	// printAuxInstructionMemory(linkedProgram);
 	// printLinkedSymbolTable(linkedProgram);
 
-	for (i = 0; i < totalPrograms; i++) {
-		linkerSecondPass(linkedProgram);
-	}
+	linkerSecondPass(linkedProgram);
 
-	printFinalLinkedMemory(linkedProgram);
-	printLinkedSymbolTable(linkedProgram);
+	// printFinalLinkedMemory(linkedProgram);
+	// printLinkedSymbolTable(linkedProgram);
 }

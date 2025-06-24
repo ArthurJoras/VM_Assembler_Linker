@@ -25,7 +25,7 @@ void verifyMaxSymbols(const vector<SymbolTableRow> &symbolTable, int lineCount) 
 	}
 }
 
-void handleLabelDeclaration(vector<AssembledProgram> &programs, const string &label, int lineCount, int programIndex) {
+void handleLabelDeclaration(vector<AssembledProgram> &programs, const string &label, int &lineCount, int programIndex) {
 	AssembledProgram &actualProgram = programs[programIndex];
 
 	verifyAlreadyDeclared(actualProgram.symbolTable, label, lineCount);
@@ -38,6 +38,7 @@ void handleLabelDeclaration(vector<AssembledProgram> &programs, const string &la
 	newSymbol.memoryAddress = lineCount;
 	newSymbol.programIndex = programIndex;
 	actualProgram.symbolTable.push_back(newSymbol);
+	lineCount--;
 }
 
 void handleWordDeclaration(vector<AssembledProgram> &programs, ScopeType scope, const string &varName, const string &value, int programIndex, int lineCount, int &initOfProgram) {
@@ -67,7 +68,7 @@ void handleWordDeclaration(vector<AssembledProgram> &programs, ScopeType scope, 
 	actualProgram.memory.push_back(newCell);
 }
 
-void oneTokenCase(vector<AssembledProgram> &programs, const vector<string> &tokens, int lineCount, int programIndex) {
+void oneTokenCase(vector<AssembledProgram> &programs, const vector<string> &tokens, int &lineCount, int programIndex) {
 	string token = tokens[0];
 	if (token.back() == ':') {
 		if (token.size() < 2) {
@@ -196,8 +197,6 @@ void instructionTwoTokenCase(vector<AssembledProgram> &programs, const vector<st
 
 	switch (instruction.opcode) {
 		case JMP:
-		case R:
-		case W:
 			instruction.operand1 = -1;
 			instruction.operand2 = -1;
 			instruction.operand3 = -1;
@@ -205,6 +204,21 @@ void instructionTwoTokenCase(vector<AssembledProgram> &programs, const vector<st
 			newCell.scope = NONE;
 			newCell.symbolName = tokens[1];
 			newCell.targetOperand = 1;
+			actualProgram.memory[lineCount] = newCell;
+			break;
+		case R:
+		case W:
+			instruction.operand1 = registerToNumber(tokens[1]);
+			if (instruction.operand1 == -1) {
+				cout << "Error: Invalid register '" << tokens[1] << "' at line " << lineCount << endl;
+				exit(EXIT_FAILURE);
+			}
+			instruction.operand2 = -1;
+			instruction.operand3 = -1;
+			newCell.instruction = instruction;
+			newCell.scope = NONE;
+			newCell.symbolName = "";
+			newCell.targetOperand = -1;
 			actualProgram.memory[lineCount] = newCell;
 			break;
 		default:

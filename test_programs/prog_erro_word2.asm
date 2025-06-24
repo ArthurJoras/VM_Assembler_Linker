@@ -1,0 +1,1 @@
+GLOBAL WORD test 2

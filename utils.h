@@ -20,6 +20,8 @@ void printAuxDataMemory(const LinkedProgram &linkedProgram);
 void printAuxInstructionMemory(const LinkedProgram &linkedProgram);
 void printLinkedSymbolTable(const LinkedProgram &linkedProgram);
 void printFinalLinkedMemory(const LinkedProgram &linkedProgram);
+void printInstruction(const Instruction &instruction);
+void printRegisters(const int registers[], int size);
 
 int convertMnemonicToOpcode(const std::string &mnemonic);
 int registerToNumber(const std::string &reg);

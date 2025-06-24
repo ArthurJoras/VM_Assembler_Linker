@@ -1,4 +1,0 @@
-WORD a 10
-WORD b 20
-MV A1 a
-ADD A1 A2 A3

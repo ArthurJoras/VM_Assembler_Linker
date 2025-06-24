@@ -6,6 +6,8 @@
 #include "assembler.h"
 #include "linker.h"
 #include "types.h"
+#include "utils.h"
+#include "virtual_machine.h"
 
 using namespace std;
 
@@ -33,4 +35,10 @@ int main(int argc, char *argv[]) {
 	LinkedProgram linkedProgram;
 
 	initLinker(programs, linkedProgram, argv, totalPrograms);
+
+	// printFinalLinkedMemory(linkedProgram);
+
+	runVirtualMachine(linkedProgram);
+
+	cout << "Virtual machine execution completed successfully." << endl;
 }
