@@ -176,7 +176,7 @@ void instructionOneTokenCase(vector<AssembledProgram> &programs, const vector<st
 
 	MemoryCell newCell;
 	newCell.instruction = instruction;
-	newCell.scope = LOCAL;
+	newCell.scope = NONE;
 	newCell.symbolName = "";
 	newCell.targetOperand = -1;
 
@@ -202,7 +202,7 @@ void instructionTwoTokenCase(vector<AssembledProgram> &programs, const vector<st
 			instruction.operand2 = -1;
 			instruction.operand3 = -1;
 			newCell.instruction = instruction;
-			newCell.scope = LOCAL;
+			newCell.scope = NONE;
 			newCell.symbolName = tokens[1];
 			newCell.targetOperand = 1;
 			actualProgram.memory[lineCount] = newCell;
@@ -235,7 +235,7 @@ void instructionThreeTokenCase(vector<AssembledProgram> &programs, const vector<
 			instruction.operand2 = -1;
 			instruction.operand3 = -1;
 			newCell.instruction = instruction;
-			newCell.scope = LOCAL;
+			newCell.scope = NONE;
 			newCell.symbolName = tokens[2];
 			newCell.targetOperand = 2;
 			actualProgram.memory[lineCount] = newCell;
@@ -270,7 +270,7 @@ void instructionFourTokenCase(vector<AssembledProgram> &programs, const vector<s
 				exit(EXIT_FAILURE);
 			}
 			newCell.instruction = instruction;
-			newCell.scope = LOCAL;
+			newCell.scope = NONE;
 			newCell.symbolName = "";
 			newCell.targetOperand = -1;
 			actualProgram.memory[lineCount] = newCell;
@@ -286,7 +286,7 @@ void instructionFourTokenCase(vector<AssembledProgram> &programs, const vector<s
 			}
 			instruction.operand3 = -1;
 			newCell.instruction = instruction;
-			newCell.scope = LOCAL;
+			newCell.scope = NONE;
 			newCell.symbolName = tokens[3];
 			newCell.targetOperand = 3;
 			actualProgram.memory[lineCount] = newCell;

@@ -16,7 +16,8 @@ enum SymbolType {
 
 enum ScopeType {
 	GLOBAL,
-	LOCAL
+	LOCAL,
+	NONE
 };
 
 typedef struct {

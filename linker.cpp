@@ -62,7 +62,52 @@ void linkerFirstPass(LinkedProgram &linkedProgram, vector<AssembledProgram> &pro
 	instructionOffset += (currentProgram.memory.size() - currentProgram.initOfProgram);
 }
 
-void linkerSecondPass() {
+void linkerSecondPass(LinkedProgram &linkedProgram) {
+	for (auto const &dataCell : linkedProgram.auxDataMemory) {
+		linkedProgram.memory.push_back(dataCell);
+	}
+
+	for (auto const &instructionCell : linkedProgram.auxInstructionMemory) {
+		MemoryCell newCell = instructionCell;
+		if (newCell.symbolName != "" && newCell.targetOperand != -1) {
+			bool found = false;
+			for (const auto &symbol : linkedProgram.symbolTable) {
+				if (!found) {
+					if (symbol.name == newCell.symbolName) {
+						if (symbol.scope == GLOBAL || (symbol.scope == LOCAL && symbol.programIndex == newCell.programIndex)) {
+							if (newCell.targetOperand == 1) {
+								newCell.instruction.operand1 = symbol.memoryAddress;
+							} else if (newCell.targetOperand == 2) {
+								newCell.instruction.operand2 = symbol.memoryAddress;
+							} else if (newCell.targetOperand == 3) {
+								newCell.instruction.operand3 = symbol.memoryAddress;
+							} else {
+								cout << "Error: Invalid target operand for symbol '"
+								     << newCell.symbolName << "' at program "
+								     << newCell.programIndex << endl;
+								exit(EXIT_FAILURE);
+							}
+						} else {
+							cout << "Error: Symbol '" << newCell.symbolName
+							     << "' not found in the correct scope at program "
+							     << newCell.programIndex << endl;
+							exit(EXIT_FAILURE);
+						}
+
+						found = true;
+					}
+				}
+			}
+			if (!found) {
+				cout << "Error: Symbol '" << newCell.symbolName
+				     << "' not found in the symbol table at program "
+				     << newCell.programIndex << endl;
+				exit(EXIT_FAILURE);
+			}
+		}
+
+		linkedProgram.memory.push_back(newCell);
+	}
 }
 
 void initLinker(vector<AssembledProgram> &programs, LinkedProgram &linkedProgram, char *argv[], int totalPrograms) {
@@ -83,9 +128,12 @@ void initLinker(vector<AssembledProgram> &programs, LinkedProgram &linkedProgram
 
 	// printAuxDataMemory(linkedProgram);
 	// printAuxInstructionMemory(linkedProgram);
-	printLinkedSymbolTable(linkedProgram);
+	// printLinkedSymbolTable(linkedProgram);
 
 	for (i = 0; i < totalPrograms; i++) {
-		linkerSecondPass();
+		linkerSecondPass(linkedProgram);
 	}
+
+	printFinalLinkedMemory(linkedProgram);
+	printLinkedSymbolTable(linkedProgram);
 }

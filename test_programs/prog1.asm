@@ -1,6 +1,7 @@
 GLOBAL WORD x 10
 WORD y 20
 MV A0 x
+JMP test
 ADD A0 A1 A2
 test:
 MV A2 y

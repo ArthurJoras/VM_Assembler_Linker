@@ -103,6 +103,32 @@ void printAuxInstructionMemory(const LinkedProgram &linkedProgram) {
 	}
 }
 
+void printFinalLinkedMemory(const LinkedProgram &linkedProgram) {
+	cout << "Final Linked Memory:" << endl;
+	for (size_t i = 0; i < linkedProgram.memory.size(); ++i) {
+		const MemoryCell &cell = linkedProgram.memory[i];
+		cout << "Address " << i << ": ";
+
+		if (cell.scope == NONE) {
+			cout << "INSTRUCTION -> Opcode: " << cell.instruction.opcode
+			     << ", Op1: " << cell.instruction.operand1
+			     << ", Op2: " << cell.instruction.operand2
+			     << ", Op3: " << cell.instruction.operand3;
+		} else {
+			cout << "DATA = " << cell.value
+			     << " | Scope: " << (cell.scope == GLOBAL ? "Global" : "Local");
+		}
+
+		cout << " | From Program: " << cell.programIndex;
+
+		if (!cell.symbolName.empty()) {
+			cout << " | Symbol: " << cell.symbolName;
+		}
+
+		cout << endl;
+	}
+}
+
 int convertMnemonicToOpcode(const string &mnemonic) {
 	if (mnemonic == "ADD") return ADD;
 	if (mnemonic == "SUB") return SUB;
